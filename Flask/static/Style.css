@@ -122,4 +122,15 @@ button:hover {
     flex: 1; /* Ensures each input takes equal space */
 }
 
+.weather-image {
+    width: 100px;    
+    height: auto;    
+    max-height: 100px; 
+    object-fit: contain; 
+}
 
+
+/* Adds spacing at the bottom of the content area to prevent overlap with the footer */
+.content {
+    padding-bottom: 50px;
+}

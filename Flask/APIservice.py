@@ -3,6 +3,14 @@ import openmeteo_requests
 import requests_cache
 from retry_requests import retry
 from datetime import datetime
+from dataclasses import dataclass
+
+@dataclass
+class weatherData:
+    time: str
+    temperature: float
+    is_day: str
+    wind_speed: float
 
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after=3600)
@@ -37,13 +45,22 @@ def get_current_weather(lat, lon):
     current = response.Current()
     current_time = datetime.utcfromtimestamp(current.Time()).strftime('%Y-%m-%d %H:%M:%S')
     current_temperature_2m = round(current.Variables(0).Value(), 2)
-    current_is_day = int(current.Variables(1).Value())
+    current_is_day = "Yes" if int(current.Variables(1).Value()) == 1 else "No"
     current_wind_speed_10m = round(current.Variables(2).Value(), 2)
 
-    # Return data as a dictionary
-    return {
-        "time": current_time,
-        "temperature_2m": current_temperature_2m,
-        "is_day": "Yes" if current_is_day == 1 else "No",
-        "wind_speed_10m": current_wind_speed_10m
-    }
+    # Return a weatherData object
+    return weatherData(
+        time=current_time,
+        temperature=current_temperature_2m,
+        is_day=current_is_day,
+        wind_speed=current_wind_speed_10m
+    )
+
+def main(name):
+    lat, lon = get_lat_lon(name)
+    weather_data = get_current_weather(lat, lon)
+    return weather_data
+
+if __name__ == "__main__":
+    lat, lon = get_lat_lon("37421")
+    print(get_current_weather(lat, lon))

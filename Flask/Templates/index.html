@@ -3,19 +3,43 @@
 {% block title %}Home | Weather App{% endblock %}
 
 {% block content %}
-<h1>Weather App</h1>
-<form>
-    <div class="input-row">
-        <div class="input-column">
-            <input type="text" id="cityName" name="cityName" placeholder="City">
+<div class="content">
+    <h1>Weather App</h1>
+    <p>Enter a City or Zip code:</p>
+    <form method="POST" action="/">
+        <div class="input-row">
+            <div class="input-column">
+                
+            </div>
+            <div class="input-column">
+                <input type="text" id="name" name="name" placeholder="Name">
+            </div>
+            <div class="input-column">
+                
+            </div>
         </div>
-        <div class="input-column">
-            <input type="text" id="stateName" name="stateName" placeholder="State">
-        </div>
-        <div class="input-column">
-            <input type="text" id="zipCode" name="zipCode" placeholder="ZIP Code">
-        </div>
-    </div>
-    <button>Find</button>
-</form>
+        <button type="submit">Find</button>
+    </form>
+
+    {% if data %}
+        <h2>Weather Data</h2>
+        <p>Time: {{ data.time }}</p>
+        <p>Temperature: {{ data.temperature }}°F</p>
+        <p>Is Day: {{ data.is_day }}</p>
+        <p>Wind Speed: {{ data.wind_speed }} mph</p>
+
+        <!-- Display image based on temperature -->
+        {% if data.temperature <= 32 %}
+            <img src="{{ url_for('static', filename='images/cold.png') }}" alt="Cold Weather" class="weather-image">
+        {% elif data.temperature > 32 and data.temperature <= 70 %}
+            <img src="{{ url_for('static', filename='images/cool.png') }}" alt="Cool Weather" class="weather-image">
+        {% elif data.temperature > 70 and data.temperature <= 90 %}
+            <img src="{{ url_for('static', filename='images/warm.png') }}" alt="Warm Weather" class="weather-image">
+        {% else %}
+            <img src="{{ url_for('static', filename='images/hot.png') }}" alt="Hot Weather" class="weather-image">
+        {% endif %}
+
+    {% endif %}
+
+</div>
 {% endblock %}
