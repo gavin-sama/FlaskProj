@@ -1,8 +1,21 @@
 {% extends "base.html" %}
 
-{% block title %}Home | My Flask App{% endblock %}
+{% block title %}Home | Weather App{% endblock %}
 
 {% block content %}
-<h1>Welcome to My Flask App</h1>
-<p>This is the homepage. Customize this text to fit your app's purpose.</p>
+<h1>Weather App</h1>
+<form>
+    <div class="input-row">
+        <div class="input-column">
+            <input type="text" id="cityName" name="cityName" placeholder="City">
+        </div>
+        <div class="input-column">
+            <input type="text" id="stateName" name="stateName" placeholder="State">
+        </div>
+        <div class="input-column">
+            <input type="text" id="zipCode" name="zipCode" placeholder="ZIP Code">
+        </div>
+    </div>
+    <button>Find</button>
+</form>
 {% endblock %}
